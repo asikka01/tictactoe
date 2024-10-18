@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tic Tac Toe</title>
+        <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+        <h1 class="title">Tic Tac Toe: Let's Go!</h1>
+        <div class="turn-indicator" id="turn-indicator">X's Turn</div>
+        <div id="board-wrapper">
+                <div class="board" id="board"></div>
+        </div>
+        <div class="win-indicator" id="win-indicator">Game ongoing...</div>
+        <button id="start-game">Start Game</button>
+
+        <script>
+                document.write('<div class="board" id="board">');
+                const NUM_SQUARES = 9;
+                for (let i = 0; i < NUM_SQUARES; i++) {
+                        const id = "sq" + i;
+                        document.write("<div class='square' id='" + id + "'></div>");
+                }
+                document.write('</div>');
+
+                // JavaScript for handling game logic
+                const squares = document.querySelectorAll('.square');
+                const turnIndicator = document.getElementById('turn-indicator');
+                const winIndicator = document.getElementById('win-indicator');
+                const startButton = document.getElementById('start-game');
+                let currentPlayer = Math.random() < 0.5 ? 'X' : 'O'; // Randomly choose starting player
+                turnIndicator.textContent = `${currentPlayer}'s Turn`;
+
+                // Function to handle square clicks
+                function handleSquareClick(event) {
+                        const square = event.target;
+                        const squareNumber = square.id.replace('sq', '');
+
+                        // Only place a symbol if the square is empty
+                        if (square.textContent === '') {
+                                square.textContent = currentPlayer;
+                                square.classList.add(currentPlayer.toLowerCase());
+                                alert(`Square ${squareNumber} clicked!`);
+
+                                // Switch the turn after a valid move
+                                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                                turnIndicator.textContent = `${currentPlayer}'s Turn`;
+                        }
+                }
+
+                // Add click event listeners to each square
+                squares.forEach(square => {
+                        square.addEventListener('click', handleSquareClick);
+                });
+
+                // Function to clear the board and reset the game
+                function startGame() {
+                        squares.forEach(square => {
+                                square.textContent = '';
+                                square.classList.remove('x', 'o');
+                        });
+
+                        currentPlayer = Math.random() < 0.5 ? 'X' : 'O'; // Randomly choose starting player
+                        turnIndicator.textContent = `${currentPlayer}'s Turn`;
+                        winIndicator.textContent = 'Game ongoing...';
+                }
+
+                // Add event listener to the start button
+                startButton.addEventListener('click', startGame);
+
+                // Pre-fill some squares for testing (will be cleared when game starts)
+                document.getElementById('sq2').textContent = 'X';
+                document.getElementById('sq2').classList.add('x');
+                document.getElementById('sq3').textContent = 'O';
+                document.getElementById('sq3').classList.add('o');
+        </script>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tic Tac Toe</title>
+        <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+        <h1 class="title">Tic Tac Toe: Let's Go!</h1>
+        <div class="turn-indicator" id="turn-indicator">X's Turn</div>
+        <div id="board-wrapper">
+                <div class="board" id="board"></div>
+        </div>
+        <div class="win-indicator" id="win-indicator">Game ongoing...</div>
+        <button id="start-game">Start Game</button>
+
+        <script>
+                document.write('<div class="board" id="board">');
+                const NUM_SQUARES = 9;
+                for (let i = 0; i < NUM_SQUARES; i++) {
+                        const id = "sq" + i;
+                        document.write("<div class='square' id='" + id + "'></div>");
+                }
+                document.write('</div>');
+        
+                const squares = document.querySelectorAll('.square');
+                const turnIndicator = document.getElementById('turn-indicator');
+                const winIndicator = document.getElementById('win-indicator');
+                const startButton = document.getElementById('start-game');
+                let currentPlayer = Math.random() < 0.5 ? 'X' : 'O';
+                turnIndicator.textContent = `${currentPlayer}'s Turn`;
+                let isGameActive = true;
+        
+                function handleSquareClick(event) {
+                        if (!isGameActive) return;
+        
+                        const square = event.target;
+                        const squareNumber = square.id.replace('sq', '');
+        
+                        if (square.textContent === '') {
+                                square.textContent = currentPlayer;
+                                square.classList.add(currentPlayer.toLowerCase());
+                                alert(`Square ${squareNumber} clicked!`);
+                
+                                checkGameStatus();
+                
+                                if (isGameActive) {
+                                        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                                        turnIndicator.textContent = `${currentPlayer}'s Turn`;
+                                }
+                        }
+                }
+        
+                function checkGameStatus() {
+                        const moves = Array.from(squares).map(square => square.textContent || '-');
+        
+                        const winConditions = [
+                                moves[0] + moves[1] + moves[2],
+                                moves[3] + moves[4] + moves[5],
+                                moves[6] + moves[7] + moves[8],
+                                moves[0] + moves[3] + moves[6],
+                                moves[1] + moves[4] + moves[7],
+                                moves[2] + moves[5] + moves[8],
+                                moves[0] + moves[4] + moves[8],
+                                moves[2] + moves[4] + moves[6]
+                        ];
+
+                        for (const condition of winConditions) {
+                                if (condition === 'XXX') {
+                                        winIndicator.textContent = 'X Wins!';
+                                        isGameActive = false;
+                                        return;
+                                } else if (condition === 'OOO') {
+                                        winIndicator.textContent = 'O Wins!';
+                                        isGameActive = false;
+                                        return;
+                                }
+                        }
+        
+
+                        if (!moves.includes('-')) {
+                                winIndicator.textContent = 'Stalemate!';
+                                isGameActive = false;
+                        }
+                }
+        
+                function startGame() {
+                        squares.forEach(square => {
+                                square.textContent = '';
+                                square.classList.remove('x', 'o');
+                        });
+                        currentPlayer = Math.random() < 0.5 ? 'X' : 'O';
+                        turnIndicator.textContent = `${currentPlayer}'s Turn`;
+                        winIndicator.textContent = 'Game ongoing...';
+                        isGameActive = true;
+                }
+        
+                squares.forEach(square => {
+                        square.addEventListener('click', handleSquareClick);
+                });
+        
+                startButton.addEventListener('click', startGame);
+        </script>
+
+</body>
+</html>

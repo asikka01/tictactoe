@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tic Tac Toe</title>
+        <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+        <h1 class="title">Tic Tac Toe: Let's Go!</h1>
+        <div class="turn-indicator">X's Turn</div>
+        <div id="board-wrapper">
+                <div class="board" id="board"></div>
+        </div>
+        <div class="win-indicator">Game ongoing...</div>
+
+        <script>
+
+                document.write('<div class="board" id="board">');
+                const NUM_SQUARES = 9;
+                for (let i = 0; i < NUM_SQUARES; i++) {
+                        const id = "sq" + i;
+                        document.write("<div class='square' id='" + id + "'></div>");
+                }
+                document.write('</div>');
+
+                document.getElementById('sq2').textContent = 'X';
+                document.getElementById('sq2').classList.add('x');
+                document.getElementById('sq3').textContent = 'O';
+                document.getElementById('sq3').classList.add('o');
+        </script>
+
+</body>
+</html>
